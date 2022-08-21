@@ -9,10 +9,11 @@ class PFRScraper:
     def scrape(self, year, url_type):
         url = ''
         # PRO FOOTBALL REFERENCE URL FOR PASSING, RUSHING, RECEIVING, KICKING
-        passing_url = 'https://www.pro-football-reference.com/years/' + year + '/passing.htm'
-        rushing_url = 'https://www.pro-football-reference.com/years/' + year + '/rushing.htm'
-        receiving_url = 'https://www.pro-football-reference.com/years/' + year + '/receiving.htm'
-        kicking_url = 'https://www.pro-football-reference.com/years/' + year + '/kicking.htm'
+        pfr_url = 'https://www.pro-football-reference.com/years/'
+        passing_url =  pfr_url + year + '/passing.htm'
+        rushing_url = pfr_url + year + '/rushing.htm'
+        receiving_url = pfr_url + year + '/receiving.htm'
+        kicking_url = pfr_url + year + '/kicking.htm'
 
 # switch statement to get the correct url based on the user input
         match url_type:
