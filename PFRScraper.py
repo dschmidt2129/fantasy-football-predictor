@@ -1,6 +1,9 @@
 import requests
 from bs4 import BeautifulSoup as bs
 from urllib.error import URLError
+import pandas as pd
+import numpy as np
+
 class PFRScraper:  
     # no arg constructor
     def __init__(self):
@@ -15,7 +18,7 @@ class PFRScraper:
         receiving_url = pfr_url + year + '/receiving.htm'
         kicking_url = pfr_url + year + '/kicking.htm'
 
-# switch statement to get the correct url based on the user input
+        # switch statement to get the correct url based on the user input
         match url_type:
             case 'passing':
                 url = passing_url
@@ -33,19 +36,42 @@ class PFRScraper:
         if(request.status_code == 200):
             soup = bs(request.content, 'html.parser')
             # HTML ELEMENT is id=div_kicking/passing/rushing/receiving
-            div_type = 'div_'
-            match url_type:
-                case 'passing':
-                    div_type += 'passing'
-                case 'rushing':
-                    div_type += 'rushing'    
-                case 'receiving':
-                    div_type += 'receiving'
-                case 'kicking':
-                    div_type += 'kicking'
-                case _: #default case
-                    div_type += 'passing'
-            stat_table = soup.find('div',{'id' : div_type})
-            print(stat_table)
+            # div_type = 'div_'
+            pos = ''
+            # match url_type:
+            #     case 'passing':
+            #         div_type += 'passing'
+            #         pos = 'QB'
+            #     case 'rushing':
+            #         div_type += 'rushing'    
+            #         pos = 'RB'
+            #     case 'receiving':
+            #         div_type += 'receiving'
+            #         pos = 'WR'
+            #     case 'kicking':
+            #         div_type += 'kicking'
+            #         pos = 'K'
+            #     case _: #default case
+            #         div_type += 'passing'
+            #         pos = 'QB'
+            # stat_table = soup.find('div',{'id' : div_type})
+            print(self.formatPosData(soup, pos))
         else:
-            raise URLError('Could not find Pro Football Reference Stats for this year')    
+            raise URLError('Could not find Pro Football Reference Stats for this year')
+
+    # formats the scraped data into a readable format 
+    def formatPosData(self, soup, pos):
+        # collect table headers
+        column_headers = soup.find_all('tr')[0]
+        column_headers = [i.get_text() for i in column_headers.find_all('th')]
+        
+        # collect table rows
+        rows = soup.find_all('tr')[2:] # actual statistics rows after the headers, first row is empty in this scraping method (at least for kickers it was)
+
+        # get stats from each row
+        stats = []
+        for i in range(len(rows)):
+            stats.append([col.get_text() for col in rows[i].find_all('td')])
+
+        # Create DataFrame from the scraped data
+        data = pd.DataFrame(stats, columns=column_headers[1:]) # columns = column titles for the data frames, omitting rk
