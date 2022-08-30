@@ -1,3 +1,4 @@
+from turtle import position
 import requests
 from bs4 import BeautifulSoup as bs
 from urllib.error import URLError
@@ -35,32 +36,25 @@ class PFRScraper:
 
         if(request.status_code == 200):
             soup = bs(request.content, 'html.parser')
-            # HTML ELEMENT is id=div_kicking/passing/rushing/receiving
-            # div_type = 'div_'
+
             pos = ''
-            # match url_type:
-            #     case 'passing':
-            #         div_type += 'passing'
-            #         pos = 'QB'
-            #     case 'rushing':
-            #         div_type += 'rushing'    
-            #         pos = 'RB'
-            #     case 'receiving':
-            #         div_type += 'receiving'
-            #         pos = 'WR'
-            #     case 'kicking':
-            #         div_type += 'kicking'
-            #         pos = 'K'
-            #     case _: #default case
-            #         div_type += 'passing'
-            #         pos = 'QB'
-            # stat_table = soup.find('div',{'id' : div_type})
-            print(self.formatPosData(soup, pos))
+            match url_type:
+                case 'passing':
+                    pos = 'QB'
+                case 'rushing':   
+                    pos = 'RB'
+                case 'receiving':
+                    pos = 'WR'
+                case 'kicking':
+                    pos = 'K'
+                case _: #default case
+                    pos = 'QB'
+            print(self.format_pos_data(soup, pos))
         else:
             raise URLError('Could not find Pro Football Reference Stats for this year')
 
-    # formats the scraped data into a readable format 
-    def formatPosData(self, soup, pos):
+    # formats and filters the scraped data into a readable format 
+    def format_pos_data(self, soup, pos):
         # collect table headers
         column_headers = soup.find_all('tr')[0]
         column_headers = [i.get_text() for i in column_headers.find_all('th')]
@@ -75,3 +69,8 @@ class PFRScraper:
 
         # Create DataFrame from the scraped data
         data = pd.DataFrame(stats, columns=column_headers[1:]) # columns = column titles for the data frames, omitting rk
+
+        # clean data to be specific to position
+        data = data[data.Pos == pos]
+
+        return data
