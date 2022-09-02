@@ -56,7 +56,12 @@ class PFRScraper:
     # formats and filters the scraped data into a readable format 
     def format_pos_data(self, soup, pos):
         # collect table headers
-        column_headers = soup.find_all('tr')[0]
+        if pos == 'K':
+            # TODO: FIGURE OUT HOW TO ADD THE FIELD GOAL YARDAGE COLUMNS
+            column_headers = soup.find_all('tr')[1]
+        else:
+            column_headers = soup.find_all('tr')[0]
+        
         column_headers = [i.get_text() for i in column_headers.find_all('th')]
         
         # collect table rows
@@ -71,6 +76,7 @@ class PFRScraper:
         data = pd.DataFrame(stats, columns=column_headers[1:]) # columns = column titles for the data frames, omitting rk
 
         # clean data to be specific to position
-        data = data[data.Pos == pos]
-
-        return data
+        if pos != 'K':
+            return data[data.Pos == pos]
+        else:
+            return data
