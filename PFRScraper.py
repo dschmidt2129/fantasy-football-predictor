@@ -56,13 +56,17 @@ class PFRScraper:
     # formats and filters the scraped data into a readable format 
     def format_pos_data(self, soup, pos):
         # collect table headers
+        field_headers = []
+        column_headers = []
         if pos == 'K':
             # TODO: FIGURE OUT HOW TO ADD THE FIELD GOAL YARDAGE COLUMNS
+            field_goal_headers = soup.find_all('tr')[0]
+            field_headers = [j.get_text() for j in field_goal_headers.find_all('th')]
             column_headers = soup.find_all('tr')[1]
+            column_headers = [i.get_text() for i in column_headers.find_all('th')]
         else:
             column_headers = soup.find_all('tr')[0]
-        
-        column_headers = [i.get_text() for i in column_headers.find_all('th')]
+            column_headers = [i.get_text() for i in column_headers.find_all('th')]
         
         # collect table rows
         rows = soup.find_all('tr')[2:] # actual statistics rows after the headers, first row is empty in this scraping method (at least for kickers it was)
@@ -73,10 +77,27 @@ class PFRScraper:
             stats.append([col.get_text() for col in rows[i].find_all('td')])
 
         # Create DataFrame from the scraped data
-        data = pd.DataFrame(stats, columns=column_headers[1:]) # columns = column titles for the data frames, omitting rk
-
+        data = pd.DataFrame(stats) # columns = column titles for the data frames, omitting rk
         # clean data to be specific to position
         if pos != 'K':
+            data.columns =column_headers[1:]
             return data[data.Pos == pos]
         else:
+            
+            y =[("", column_headers[1]),("", column_headers[2]), 
+                ("", column_headers[3]),("", column_headers[4]), 
+                ("", column_headers[5]),("", column_headers[6]), 
+                (field_headers[2], column_headers[7]), (field_headers[2], column_headers[8]),
+                (field_headers[3], column_headers[9]), (field_headers[3], column_headers[10]),
+                (field_headers[4], column_headers[11]),(field_headers[4], column_headers[12]),
+                (field_headers[5], column_headers[13]), (field_headers[5], column_headers[14])]
+                # TODO NEED TO ADD 50+ FIELD GOAL HEADER AND EXTRA POINT HEADER TO THE TABLE MULTI INDEX HEADERS
+
+            #TODO NEED TO FIGURE OUT WHY COLUMN HEADERS AND FIELD HEADERS DO NOT MATCH UP 
+            for i in range(len(column_headers) - len(field_headers)-5): # SUPER KLUGEY SOLUTION
+                y.append('')
+
+            col_list = pd.MultiIndex.from_tuples(y)
+            data.columns = col_list
+            data.to_csv('kickers_2020.csv')
             return data
