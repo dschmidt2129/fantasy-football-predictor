@@ -13,4 +13,4 @@ Steps to run:
         d. pip install numpy
 
 To run the application:
-    run main.py in order to start the application
+    run main.py in order to start the application or type 'python main.py' in the terminal
