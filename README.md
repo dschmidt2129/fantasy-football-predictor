@@ -12,5 +12,7 @@ Steps to run:
         c. pip install pandas
         d. pip install numpy
 
+steps to run the frontend:
+
 To run the application:
     run main.py in order to start the application or type 'python main.py' in the terminal
