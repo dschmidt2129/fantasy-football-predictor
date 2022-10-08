@@ -13,6 +13,7 @@ Steps to run:
         d. pip install numpy
 
 steps to run the frontend:
+    download the lts version of nodejs
 
 To run the application:
     run main.py in order to start the application or type 'python main.py' in the terminal
