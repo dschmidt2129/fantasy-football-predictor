@@ -1,6 +1,9 @@
 # fantasy-football-predictor
 python application that when finished will utilize web scraping and machine learning to predict and suggest players to add to a given roster based on a player's performance and a roster's needs
 
+Official ESPN fantasy football api:
+    http://espn-fantasy-football-api.s3-website.us-east-2.amazonaws.com/
+
 Steps to run:
     1. Install python 3.10 from https://www.python.org/
         a. make sure to add the python directory to the user variables path
