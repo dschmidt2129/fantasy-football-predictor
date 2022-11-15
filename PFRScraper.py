@@ -49,12 +49,12 @@ class PFRScraper:
                     pos = 'K'
                 case _: #default case
                     pos = 'QB'
-            print(self.format_pos_data(soup, pos))
+            print(self.format_pos_data(soup, pos, year))
         else:
             raise URLError('Could not find Pro Football Reference Stats for this year')
 
     # formats and filters the scraped data into a readable format 
-    def format_pos_data(self, soup, pos):
+    def format_pos_data(self, soup, pos, year):
         # collect table headers
         field_headers = []
         column_headers = []
@@ -90,14 +90,21 @@ class PFRScraper:
                 (field_headers[2], column_headers[7]), (field_headers[2], column_headers[8]),
                 (field_headers[3], column_headers[9]), (field_headers[3], column_headers[10]),
                 (field_headers[4], column_headers[11]),(field_headers[4], column_headers[12]),
-                (field_headers[5], column_headers[13]), (field_headers[5], column_headers[14])]
-                # TODO NEED TO ADD 50+ FIELD GOAL HEADER AND EXTRA POINT HEADER TO THE TABLE MULTI INDEX HEADERS
+                (field_headers[5], column_headers[13]), (field_headers[5], column_headers[14]),
+                (field_headers[6], column_headers[15]), (field_headers[6], column_headers[16]),
+                (field_headers[7], column_headers[17]), (field_headers[7], column_headers[18]),
+                (field_headers[7], column_headers[19]), (field_headers[7], column_headers[20]),
+                (field_headers[7], column_headers[21]), (field_headers[7], column_headers[22]),
+                (field_headers[7], column_headers[23])]
+                
 
             #TODO NEED TO FIGURE OUT WHY COLUMN HEADERS AND FIELD HEADERS DO NOT MATCH UP 
-            for i in range(len(column_headers) - len(field_headers)-5): # SUPER KLUGEY SOLUTION
+            for i in range(len(column_headers) - len(field_headers)-14): # SUPER KLUGEY SOLUTION
                 y.append('')
-
+            
             col_list = pd.MultiIndex.from_tuples(y)
             data.columns = col_list
-            data.to_csv('kickers_2020.csv')
+            # TODO NEED TO REMOVE THE NaN COLUMNS AT THE END OF THE KICKER SPREADSHEET
+            # TODO SHOULD INCORPORATE DATABASE INSTEAD OF USING CSV FILES, MAYBE AWS FREE TIER??
+            data.to_csv(pos+'_'+year+'.csv')
             return data
