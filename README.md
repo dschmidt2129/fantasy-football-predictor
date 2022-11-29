@@ -19,6 +19,8 @@ steps to run the frontend:
     download the lts version of nodejs
     run npm install react
         npm intall react-bootstrap
-
+        npm install react-dom
+    npm start
+    
 To run the application:
     run main.py in order to start the application or type 'python main.py' in the terminal
