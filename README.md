@@ -4,6 +4,14 @@ python application that when finished will utilize web scraping and machine lear
 Official ESPN fantasy football api:
     http://espn-fantasy-football-api.s3-website.us-east-2.amazonaws.com/
 
+Useful documentation and urls:
+    https://phoenixnap.com/kb/mysql-docker-container
+    https://gist.github.com/nntrn/ee26cb2a0716de0947a0a4e9a157bc1c#v2sportsfootballleaguesnflathletesathlete_idstatistics0
+    https://gist.github.com/akeaswaran/b48b02f1c94f873c6655e7129910fc3b
+    https://stmorse.github.io/journal/pfr-scrape-python.html
+    https://towardsdatascience.com/scraping-nfl-stats-to-compare-quarterback-efficiencies-4989642e02fe
+    
+
 Steps to run:
     1. Install python 3.10 from https://www.python.org/
         a. make sure to add the python directory to the user variables path
