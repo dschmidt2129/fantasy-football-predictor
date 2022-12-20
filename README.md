@@ -10,6 +10,7 @@ Useful documentation and urls:
     https://gist.github.com/akeaswaran/b48b02f1c94f873c6655e7129910fc3b
     https://stmorse.github.io/journal/pfr-scrape-python.html
     https://towardsdatascience.com/scraping-nfl-stats-to-compare-quarterback-efficiencies-4989642e02fe
+    https://pythonbasics.org/webserver/
     
 
 Steps to run:
@@ -23,5 +24,12 @@ Steps to run:
         c. pip install pandas
         d. pip install numpy
 
+steps to run the frontend:
+    download the lts version of nodejs
+    run npm install react
+        npm intall react-bootstrap
+        npm install react-dom
+    npm start
+    
 To run the application:
     run main.py in order to start the application or type 'python main.py' in the terminal
