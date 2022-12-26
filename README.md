@@ -11,9 +11,11 @@ Useful documentation and urls:
     https://stmorse.github.io/journal/pfr-scrape-python.html
     https://towardsdatascience.com/scraping-nfl-stats-to-compare-quarterback-efficiencies-4989642e02fe
     https://pythonbasics.org/webserver/
-    
+    https://hackersandslackers.com/flask-routes/
+    Flask documentation: https://flask.palletsprojects.com/en/2.2.x/
+  
 
-Steps to run:
+Steps to run(getting started):
     1. Install python 3.10 from https://www.python.org/
         a. make sure to add the python directory to the user variables path
         b. add the scripts directory to the system variables path
@@ -23,6 +25,8 @@ Steps to run:
         b. pip install bs4
         c. pip install pandas
         d. pip install numpy
+        e. pip install flask
+        f. pip install flask_restful, flask_classful
 
 steps to run the frontend:
     download the lts version of nodejs

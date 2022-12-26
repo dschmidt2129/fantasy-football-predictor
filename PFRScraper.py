@@ -100,4 +100,5 @@ class PFRScraper:
             col_list = pd.MultiIndex.from_tuples(y)
             data.columns = col_list
             data.to_csv('kickers_2020.csv')
+            # todo write data to db using SQLite?
             return data
